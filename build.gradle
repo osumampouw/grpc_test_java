@@ -2,11 +2,14 @@ plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'com.google.protobuf' version '0.8.8'
 }
 
 group = 'benchmark.grpc.test'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+sourceSets.main.java.srcDirs += 'build/generated/sources'
 
 configurations {
     compileOnly {
@@ -18,8 +21,28 @@ repositories {
     mavenCentral()
 }
 
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.11.0"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.29.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.grpc:grpc-netty-shaded:1.29.0'
+    implementation 'io.grpc:grpc-protobuf:1.29.0'
+    implementation 'io.grpc:grpc-stub:1.29.0'
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
