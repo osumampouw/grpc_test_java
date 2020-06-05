@@ -87,9 +87,9 @@ public class GrpcClient {
     // and the default log level is DEBUG and netty is going to flood the logs
     ch.qos.logback.classic.Logger rootLogger =
         (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-    rootLogger.setLevel(Level.INFO);
+    rootLogger.setLevel(Level.WARN);
 
-    int maxNumThread = 100;
+    int maxNumThread = 500;
     ExecutorService pool = Executors.newFixedThreadPool(maxNumThread);
 
     Channel nonBlockingChannel =
@@ -106,12 +106,13 @@ public class GrpcClient {
     testNonBlocking(500, pool, nonBlockingChannel);
     testNonBlocking(5000, pool, nonBlockingChannel);
 
-    System.out.println("Test starts now non blocking");
-    testNonBlocking(10000, pool, nonBlockingChannel);
-    testNonBlocking(10000, pool, nonBlockingChannel);
-    testNonBlocking(10000, pool, nonBlockingChannel);
-    testNonBlocking(10000, pool, nonBlockingChannel);
-    testNonBlocking(10000, pool, nonBlockingChannel);
+    int retry = 10000;
+    System.out.println("Test starts now non blocking " + retry);
+    testNonBlocking(retry, pool, nonBlockingChannel);
+    testNonBlocking(retry, pool, nonBlockingChannel);
+    testNonBlocking(retry, pool, nonBlockingChannel);
+    testNonBlocking(retry, pool, nonBlockingChannel);
+    testNonBlocking(retry, pool, nonBlockingChannel);
 
     Channel blockingChannel =
         ManagedChannelBuilder.forAddress("localhost", 80).usePlaintext().build();
@@ -126,11 +127,11 @@ public class GrpcClient {
     testBlocking(5000, pool, blockingChannel);
     testBlocking(10000, pool, blockingChannel);
 
-    System.out.println("Test starts now blocking");
-    testBlocking(10000, pool, blockingChannel);
-    testBlocking(10000, pool, blockingChannel);
-    testBlocking(10000, pool, blockingChannel);
-    testBlocking(10000, pool, blockingChannel);
-    testBlocking(10000, pool, blockingChannel);
+    System.out.println("Test starts now blocking " + retry);
+    testBlocking(retry, pool, blockingChannel);
+    testBlocking(retry, pool, blockingChannel);
+    testBlocking(retry, pool, blockingChannel);
+    testBlocking(retry, pool, blockingChannel);
+    testBlocking(retry, pool, blockingChannel);
   }
 }

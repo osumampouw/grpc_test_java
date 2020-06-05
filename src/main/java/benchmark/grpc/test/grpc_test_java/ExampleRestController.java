@@ -1,7 +1,6 @@
 package benchmark.grpc.test.grpc_test_java;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
@@ -10,11 +9,9 @@ import java.util.Random;
 public class ExampleRestController {
   Random random = new Random();
 
-  @GetMapping("/foo")
-  public ExampleRestResponse getResponse(
-      @RequestParam(value = "id", defaultValue = "") String id,
-      @RequestParam(value = "code", defaultValue = "") String code) {
-    if (!id.equals("") && !code.equals("")) {
+  @GetMapping("/")
+  public ExampleRestResponse getResponse(ExampleRestRequest request) {
+    if (request.getId() != null && request.getCode() != null) {
       if (random.nextBoolean()) {
         return new ExampleRestResponse("200", "type 1 result", null);
       } else {

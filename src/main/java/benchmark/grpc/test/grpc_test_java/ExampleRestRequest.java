@@ -1,8 +1,5 @@
 package benchmark.grpc.test.grpc_test_java;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ExampleRestRequest {
   String id;
   String code;

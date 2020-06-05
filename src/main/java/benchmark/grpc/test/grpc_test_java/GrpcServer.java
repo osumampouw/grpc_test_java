@@ -10,18 +10,11 @@ import java.io.IOException;
 public class GrpcServer {
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    // workaround to set log level to info because somehow this application magically inject a slf4j
-    // logback
-    // and the default log level is DEBUG and netty is going to flood the logs
+    // workaround to set log level to warn because somehow grpc magically inject a slf4j
+    // logback into netty and the default log level is DEBUG and netty is going to flood the logs
     ch.qos.logback.classic.Logger rootLogger =
         (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-    rootLogger.setLevel(Level.INFO);
-
-    //        StaticLoggerBinder binder = StaticLoggerBinder.getSingleton();
-    //        System.out.println("foo");
-    //        System.out.println(binder.getLoggerFactory());
-    //        System.out.println(binder.getLoggerFactoryClassStr());
-    //        System.out.println("bar");
+    rootLogger.setLevel(Level.WARN);
 
     Server server = ServerBuilder.forPort(80).addService(new ExampleProtoServiceImpl()).build();
     server.start();

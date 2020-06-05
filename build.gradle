@@ -39,9 +39,11 @@ protobuf {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'io.grpc:grpc-netty-shaded:1.29.0'
     implementation 'io.grpc:grpc-protobuf:1.29.0'
     implementation 'io.grpc:grpc-stub:1.29.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
